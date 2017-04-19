@@ -1,0 +1,12 @@
+﻿struct ChatMessage {
+	1: string message
+}
+
+exception InvalidOperation{
+	1: string why
+}
+
+// Definition of SVHN recognition service
+service ChatBotSvc{
+	string send(1:ChatMessage message)
+}

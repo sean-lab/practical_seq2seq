@@ -1,0 +1,123 @@
+﻿<Window x:Class="ChatBotClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ChatBotClient"
+        xmlns:src="clr-namespace:ChatBotClient"
+        mc:Ignorable="d"
+        Title="Seq2Seq Chatbot" Height="437.633" Width="323.333" Icon="Iconsmind-Outline-Robot.ico" ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Window.Resources>
+        <src:Messages x:Key="messages" x:Name="messages"/>
+        <local:PercentageConverter x:Key="PercentageConverter"/>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition>
+            </RowDefinition>
+            <RowDefinition Height="30">
+            </RowDefinition>
+        </Grid.RowDefinitions>
+
+        <ListBox x:Name="lbMessages" HorizontalContentAlignment="Stretch" ItemsSource="{StaticResource messages}" VerticalContentAlignment="Stretch" Grid.Row="0">
+
+            <ListBox.ItemTemplate>
+
+                <DataTemplate>
+                    <StackPanel >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10"></ColumnDefinition>
+                                <ColumnDefinition Name="messageGrid" ></ColumnDefinition>
+                                <ColumnDefinition Width="10">
+
+                                </ColumnDefinition>
+
+                            </Grid.ColumnDefinitions>
+                            <Polygon Points="0,0 10,0 10,10 0,0" Grid.Column="0"  HorizontalAlignment="Left" VerticalAlignment="top">
+                                <Polygon.Style>
+                                    <Style TargetType="Polygon">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Sender}" Value="ME">
+                                                <Setter  Property="Visibility" Value="Hidden"/>
+                                                <Setter  Property="Width" Value="100"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Sender}" Value="YOU">
+                                                <Setter  Property="Visibility" Value="Visible"/>
+                                                <Setter  Property="Width" Value="10"/>
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </Polygon.Style>
+                                <Polygon.Fill>
+                                    <SolidColorBrush Color="#E6E5EA" />
+                                </Polygon.Fill>
+                            </Polygon>
+                            <TextBlock Text="{Binding Text}" Grid.Column="1"
+                                       TextWrapping="Wrap" Padding="10"                                        
+                                       MaxWidth="{Binding 
+                                               Converter={StaticResource PercentageConverter}, 
+                                               ElementName=lbMessages, 
+                                               Path=ActualWidth, 
+                                               ConverterParameter=60}">                                       
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Sender}" Value="ME">
+                                                <Setter  Property="HorizontalAlignment" Value="Right"/>
+                                                <Setter  Property="TextAlignment" Value="Right"/>
+                                                <Setter  Property="Foreground" Value="White"/>
+                                                <Setter  Property="Background" Value="#4BBBFB"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Sender}" Value="YOU">
+                                                <Setter  Property="HorizontalAlignment" Value="Left"/>
+                                                <Setter  Property="Margin" Value="0, 0, 20, 0"/>
+                                                <Setter  Property="Background" Value="#E6E5EA"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <Polygon Points="0,0 10,0 0,10 0,0" Grid.Column="2"  HorizontalAlignment="Left" VerticalAlignment="top">
+                                <Polygon.Style>
+                                    <Style TargetType="Polygon">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Sender}" Value="YOU">
+                                                <Setter  Property="Visibility" Value="Hidden"/>
+                                                <Setter  Property="Width" Value="100"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Sender}" Value="ME">
+                                                <Setter  Property="Visibility" Value="Visible"/>
+                                                <Setter  Property="Width" Value="10"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Polygon.Style>
+                                <Polygon.Fill>
+                                    <SolidColorBrush Color="#4BBBFB" />
+                                </Polygon.Fill>
+                            </Polygon>
+                        </Grid>
+                    </StackPanel>
+                </DataTemplate>
+
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="70"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Name="txtMessage"                      
+                     BorderBrush="#4BBBFB" BorderThickness="1" Grid.Row="1" Grid.Column="0" KeyDown="txtMessage_KeyDown"/>
+            <Button Name="btnSend" Background="#4BBBFB"                     
+                    BorderThickness="0" Foreground="White" Grid.Column="1" Click="btnSend_Click" VerticalAlignment="Stretch" Margin="0,0,-0.4,0">SEND</Button>
+        </Grid>
+
+
+    </Grid>
+</Window>
